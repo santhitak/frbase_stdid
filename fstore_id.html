@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <script src=https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js></script>
+        <script src=https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js></script>
+           <style>
+            @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@200&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+            .box{
+                position: relative;
+                width: 1000px;
+                height: 250px;
+                margin: auto;
+                margin-top: 3em;
+                border: 1px solid #e9e9e9;
+                border-radius: 15px;
+                padding: 2em;
+                text-align: center;
+                box-shadow: 0px 0px 5px 5px rgba(230, 230, 230, 0.2);
+
+            }
+            #title{
+                font-family: "Titillium Web";
+                font-size: 2.2em;
+                margin-top: 0;
+                margin-bottom: 1em;
+            }
+            .faded{
+                font-family: "Archivo";
+                color: #A0A0A0;
+                font-size: .8em;
+                margin-top: -1em;
+                margin-bottom: 3.5em;
+            }
+            #check{
+                background-color: #2186da;
+                color: #eee;
+                border: 1px solid #a7ceee;
+                box-shadow: 0px 0px 2px 2px rgba(235, 235, 235, 0.4);
+                border-radius: 5px;
+                padding: .4em;
+                margin-bottom: 2em;
+            }
+            label{
+                font-family: Roboto;
+                color: #575757;
+                margin-right: 1em;
+            }
+            #name{
+                position: relative;
+                width: 20em;
+                height: 2em;
+                background: #ffffff;
+                border: 1px solid #dbdbdb;
+                box-shadow: 0px 0px 2px 2px rgba(235, 235, 235, 0.4);
+                border-radius: 10px;
+                color: #cecece;
+                margin-bottom: 1em;
+                margin-right: 2em;
+            }
+            #stdid{
+                position: relative;
+                width: 20em;
+                height: 2em;
+                background: #ffffff;
+                border: 1px solid #dbdbdb;
+                box-shadow: 0px 0px 2px 2px rgba(235, 235, 235, 0.4);
+                border-radius: 10px;
+                color: #585858;
+                padding-left: .7em;
+                margin-bottom: 2em;
+            }
+            #output{
+                margin-top: 2em;
+                font-family: Roboto;
+                color: #2b2b2b;
+                font-size: 2em;
+            }
+
+        </style>
+        <script>
+            const main = (callback) => {
+                document.addEventListener("DOMContentLoaded", callback, {
+                    once: true
+                })
+            },
+                id = (id) => {
+                    const reference = document.getElementById(id)
+
+                    return Object.assign(reference, {
+                        on: (event, callback) => {
+                            reference.addEventListener(event, callback)
+
+                            return () => reference.removeEventListener(event, callback)
+                        }
+                    })
+                }
+        </script>
+        <script defer>
+            // Firebase Setup
+            const firebaseConfig = {
+                apiKey: "AIzaSyCO8oHDOfyOckOyrZQozAFKfUsMIUo8IUg",
+                authDomain: "ndproject-e0536.firebaseapp.com",
+                projectId: "ndproject-e0536",
+                storageBucket: "ndproject-e0536.appspot.com",
+                messagingSenderId: "815733332122",
+                appId: "1:815733332122:web:f3c80d4cb4abc0f7a8a723",
+                measurementId: "G-ERB96XVQ65"
+            }
+
+            firebase.initializeApp(firebaseConfig)
+
+            const firestore = firebase.firestore()
+
+            main(() => {
+                /**
+                 * ? When element with id "read" is clicked.
+                 * ? The function will run.
+                 * ? board : "Information Technology",
+                     fullname : "Santhita Krajangwongpaisan",
+                     university : "KMITL"
+                 * */
+                 id("check").on("click", () => {
+                      firestore.collection("Student").doc(stdid.value)
+                      .get("fullname")
+                      .then(doc =>{
+                        const datas = doc.data()
+                        console.log(datas.fullname)
+                        id("output").textContent = datas.fullname + ", " + datas.board +" "+ datas.university
+
+                  })
+                })
+
+            })
+        </script>
+    </head>
+    <body>
+        <div class="box">
+            <h1 id=title>Student Dossier</h1>
+            <p class="faded">Please input student's ID to check the faculty</p>
+            <label for='stdID'>Student ID</label>
+            <input id='stdid'><br><br>
+            <button id='check'>Check</button>
+            <h1 id=output> </h1>
+             <!-- <p>ID in firebase</p>
+              <p>63070099</p>
+              <p>63070126</p>
+              <p>63070151</p>
+              <p>63070174</p>
+              <p>63070175</p>
+              <p>63070188</p> -->
+        </div>
+    </body>
+</html>
